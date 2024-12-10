@@ -34,9 +34,11 @@ public class ConfigSecurity {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF nếu không dùng
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login", "/register", "/static/**", "/assets/**").permitAll() // Các URL công khai
+                        .requestMatchers("/login", "/register", "/static/**", "/assets/**", "/default").permitAll()
                         .requestMatchers("/dashboard/**").hasRole("ADMIN") // Chỉ cho ADMIN
-                        .requestMatchers("/user/**").hasRole("USER") // Chỉ cho USER
+                        .requestMatchers("/user/**").hasAnyRole("ADMIN") // Chỉ cho USER
+                        .requestMatchers("/api/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/role/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated() // Mọi request khác cần xác thực
                 )
                 .formLogin((form) -> form

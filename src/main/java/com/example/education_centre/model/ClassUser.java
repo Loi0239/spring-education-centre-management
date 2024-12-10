@@ -34,10 +34,4 @@ public class ClassUser extends Auditable {
     double midTest;
     @Column(name = "final_test")
     double finalTest;
-//    @CreatedDate
-//    @Column(name="created_at", nullable = false, updatable = false)
-//    LocalDateTime createdAt;
-//    @LastModifiedDate
-//    @Column(name="update_at")
-//    LocalDateTime updateAt;
 }

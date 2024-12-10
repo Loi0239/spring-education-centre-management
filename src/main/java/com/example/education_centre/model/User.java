@@ -1,5 +1,8 @@
 package com.example.education_centre.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,17 +37,12 @@ public class User extends Auditable {
     @Column(nullable = false)
     Boolean gender;
     LocalDate dob;
-//    @CreatedDate
-//    @Column(name="created_at", nullable = false, updatable = false)
-//    LocalDateTime createdAt;
-//    @LastModifiedDate
-//    @Column(name="update_at")
-//    LocalDateTime updateAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_role", referencedColumnName = "id")
     Role role;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<ClassUser> classUsers;
 }

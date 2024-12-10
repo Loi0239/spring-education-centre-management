@@ -22,13 +22,8 @@ public class GroupPermission extends Auditable {
     @Column(name = "display_name", unique = true, nullable = false)
     String displayName;
     String description;
-//    @CreatedDate
-//    @Column(name = "created_at", updatable = false, nullable = false)
-//    private LocalDateTime createdAt;
-//    @LastModifiedDate
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "groupPermission", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<Permission> permissions;
 }

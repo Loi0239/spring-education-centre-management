@@ -21,16 +21,12 @@ public class Classes extends Auditable {
     String classCode;
     @Column(nullable = false)
     String name;
-//    @CreatedDate
-//    @Column(name="created_at", nullable = false, updatable = false)
-//    LocalDateTime createdAt;
-//    @LastModifiedDate
-//    @Column(name="update_at")
-//    LocalDateTime updateAt;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<Schedule> schedules;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<ClassUser> classUsers;
 }

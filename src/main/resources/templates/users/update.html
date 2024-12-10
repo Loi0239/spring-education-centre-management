@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="components/head :: head (pageTitle='Thông tin người dùng')"></div>
+    <link rel="stylesheet" th:href="@{/assets/css/commonFile/add.css}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="wrapper">
+    <!-- sidebar -->
+    <div th:replace="components/sidebar :: sidebar"></div>
+
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="index.html" class="logo">
+                        <img
+                                src="assets/img/kaiadmin/logo_light.svg"
+                                alt="navbar brand"
+                                class="navbar-brand"
+                                height="20"
+                        />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <!-- Header -->
+            <nav th:replace="components/header :: header"></nav>
+        </div>
+
+        <div class="container">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h3 class="fw-bold mb-3">Quản lý người dùng</h3>
+                    <ul class="breadcrumbs mb-3">
+                        <li class="nav-home">
+                            <a th:href="${defaultPage}">
+                                <i class="icon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${userPage}">Quản lý người dùng</a>
+                        </li>
+                        <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Thông tin người dùng</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form th:action="@{/user/edit}" th:object="${form}" enctype="multipart/form-data" method="post" class="row">
+                            <div class="col-md-3">
+                                <label>Cập nhật avata</label>
+                                <!-- Hiển thị bản xem trước của file mới được chọn -->
+                                <div class="w-full flex item-center justify-center py-2">
+                                    <img th:src="@{/assets/img/avatar/{avatarLink}(avatarLink=*{avatarLink})}" class="w-40 h-40 rounded-full border border-slate-700"
+                                    id="preview-avatar">
+                                </div>
+                                <!-- Input để người dùng chọn file mới -->
+                                <input 
+                                    type="file" 
+                                    name="avatar" 
+                                    th:field="*{avatar}"
+                                    id="avatar-input" 
+                                    class="w-full"
+                                >
+
+                                <div class="mt-32 flex flex-wrap justify-between">
+                                    <label class="text-right pr-8">Mã Người dùng
+                                        <sup class="text-red-400">(*)</sup>
+                                    </label>
+                                    <div class="">
+                                        <input 
+                                        type="text" 
+                                        name="userCode"
+                                        th:field="*{userCode}"
+                                        readonly
+                                        class="input-field bg-neutral-300" 
+                                        placeholder="<khóa>-<ttdt>-<số thứ tự>" />
+                                        <span th:if="${#fields.hasErrors('userCode')}" th:errors="*{userCode}" class="text-red-400"></span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-32 flex flex-wrap justify-between">
+                                    <label class="text-right pr-8">Trạng thái</label>
+                                    <div class="">
+                                        <input class="ml-12" type="radio" name="status" value="1" th:checked="*{status == true}"> Hoạt động
+                                        <input class="ml-12" type="radio" name="status" value="0" th:checked="*{status == false}"> Cấm
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-input col-md-9">
+                                <div class="mb-16 flex justify-between">
+                                    <label class="w-2/12 text-right pr-8">Tên người dùng
+                                        <sup class="text-red-400">(*)</sup>
+                                    </label>
+                                    <div class="w-10/12">
+                                        <input 
+                                        type="text" 
+                                        name="name"
+                                        th:field="*{name}"
+                                        class="input-field" 
+                                        placeholder="Nguyễn Văn A" />
+                                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-400"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-16 flex justify-between">
+                                    <label class="w-2/12 text-right pr-8">email
+                                        <sup class="text-red-400">(*)</sup>
+                                    </label>
+                                    <div class="w-10/12">
+                                        <input 
+                                        type="text" 
+                                        name="email"
+                                        th:field="*{email}"
+                                        readonly
+                                        class="input-field bg-neutral-300" 
+                                        placeholder="example@ttdt.com" />
+                                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-400"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-16 flex justify-between">
+                                    <label class="w-2/12 text-right pr-8">Số điện thoại:</label>
+                                    <div class="w-10/12">
+                                        <input 
+                                        type="text" 
+                                        name="phone"
+                                        th:field="*{phone}"
+                                        class="input-field" 
+                                        placeholder="xxxx-xxx-xxx" />
+                                    </div>
+                                </div>
+                                <div class="mb-16 row justify-between">
+                                    <label class="col-md-2 text-right pr-8">Địa chỉ:</label>
+                                    <div class="col-md-5 flex flex-wrap gap-y-4 gap-x-32 item-center">
+                                        <select class="selectBox" name="province" id="province">
+                                            <option th:if="${addressParts != null and addressParts.length > 0}" th:value="${addressParts[0]}" th:text="${addressParts[0]}"></option>
+                                            <option th:if="${addressParts == null or addressParts.length == 0}" value="">[Chọn Thành Phố/Tỉnh]</option>
+                                        </select>
+                                        <select class="selectBox" name="ward" id="ward">
+                                            <option th:if="${addressParts != null and addressParts.length > 2}" th:value="${addressParts[2]}" th:text="${addressParts[2]}"></option>
+                                            <option th:if="${addressParts == null or addressParts.length <= 2}" value="">[Chọn Phường/Xã]</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 flex flex-wrap gap-y-4 gap-x-32 item-center">
+                                        <select class="selectBox" name="district" id="district">
+                                            <option th:if="${addressParts != null and addressParts.length > 1}" th:value="${addressParts[1]}" th:text="${addressParts[1]}"></option>
+                                            <option th:if="${addressParts == null or addressParts.length <= 1}" value="">[Chọn Quận/Huyện]</option>
+                                        </select>
+                                        <input class="input-field" 
+                                            type="text" 
+                                            name="address" 
+                                            th:field="*{address}"
+                                            th:value="${addressParts != null and addressParts.length > 3 ? addressParts[addressParts.length - 1] : ''}" 
+                                            placeholder="Vui lòng nhập số nhà và tên đường">
+                                    </div>
+                                    <input type="hidden" th:field="*{resultAddress}" name="location" id="result">
+                                </div>
+                                <div class="mb-16 row">
+                                    <div class="col-md-6 flex justify-between">
+                                        <label class="w-4/12 text-right pr-8">Ngày sinh:</label>
+                                        <div class="w-8/12">
+                                            <input 
+                                            type="date" 
+                                            name="dob"
+                                            th:field="*{dob}"
+                                            class="input-field" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 flex justify-between">
+                                        <label class="w-4/12 text-right pr-8">Giới tính:</label>
+                                        <div class="w-8/12">
+                                            <input class="ml-12" type="radio" name="gender" value="1" th:checked="*{gender == true}"> Nam
+                                            <input class="ml-12" type="radio" name="gender" value="0"th:checked="*{gender == false}"> Nữ
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-16 flex justify-between">
+                                    <label class="w-2/12 text-right pr-8">Chức vụ
+                                        <sup class="text-red-400">(*)</sup>
+                                    </label>
+                                    <div class="w-10/12">
+                                        <select id="role" name="role" th:field="*{idRole}" class="input-field" required>
+                                            <option th:value="-1" th:selected="${selectedRoleId == null || selectedRoleId == -1}" th:text="'-- Lựa chọn chức vụ --'"></option>
+                                            <option th:each="role : ${roles}" 
+                                                    th:value="${role.id}" 
+                                                    th:if="${role.id != 1}"
+                                                    th:selected="${selectedRoleId != null && selectedRoleId == role.id}" 
+                                                    th:text="${role.displayName}">
+                                            </option>
+                                        </select>
+                                        <span th:if="${#fields.hasErrors('idRole')}" th:errors="*{idRole}" class="text-red-400"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-wrap">
+                                <button type="submit" class="btn-add">
+                                <i class="fa-regular fa-plus icon"></i>
+                                Thay đổi thông tin
+                            </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <footer th:replace="components/footer :: footer"></footer>
+    </div>
+</div>
+<div th:replace="components/script :: script"></div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script th:src="@{/assets/js/province.js}"></script>
+<script>
+    document.getElementById('avatar-input').addEventListener('change', function(event) {
+        var input = event.target;
+        var reader = new FileReader();
+    
+        reader.onload = function() {
+            var dataURL = reader.result;
+            var previewAvatar = document.getElementById('preview-avatar');
+            previewAvatar.src = dataURL;
+            previewAvatar.style.display = 'block';
+        };
+    
+        reader.readAsDataURL(input.files[0]);
+    });
+    
+    </script>
+</body>
+</html>

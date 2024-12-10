@@ -31,7 +31,7 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/default")
     public String index(){
         return "index";
     }

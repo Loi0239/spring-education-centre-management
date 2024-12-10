@@ -22,17 +22,12 @@ public class Permission extends Auditable {
     @Column(name="display_name", unique = true, nullable = false)
     String displayName;
     String description;
-//    @CreatedDate
-//    @Column(name = "created_at", updatable = false, nullable = false)
-//    private LocalDateTime createdAt;
-//    @LastModifiedDate
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_permission", referencedColumnName = "id")
     GroupPermission groupPermission;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "permission")
-    private List<PermissionRole> permissionRoles;
+    List<PermissionRole> permissionRoles;
 }
